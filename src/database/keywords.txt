@@ -1,0 +1,544 @@
+.htaccess
+.net
+.net framework
+acid
+administrador de sistemas
+agile
+agile software development
+agiles
+ai
+airflow
+ajax
+algebra lineal
+algorithm
+algorithms
+amazon ec2
+amazon elastic compute cloud
+amazon kinesis
+amazon s3
+amazon simple storage service
+amazon web services
+analisis de datos
+analista de datos
+android
+android studio
+angular
+angular js
+angular.js
+angularjs
+ansible
+apache
+apache airflow
+apache avro
+apache cordova
+apache flume
+apache hadoop
+apache hbase
+apache kafka
+apache maven
+apache parquet
+apache spark
+apache spark sql
+api
+apis
+application programming interface
+aprendizaje automatico
+aprendizaje profundo
+array
+arrays
+artificial intelligence
+asp net
+asp.net
+asp.net-core
+asp.net-mvc
+aspnet
+assembly
+async await
+asynchronous
+atomicity, consistency, isolation, durability
+automation
+automatizacion
+avro
+awk
+aws
+aws lambda
+azure
+azure application insights
+azure automation
+azure cosmos db
+azure data factory
+azure data lake
+azure devops
+azure devops server
+azure iot hub
+azure log analytics
+azure machine learning
+bases de datos
+bash
+beautifulsoup
+behave
+bi analyst
+big data
+bigquery
+bootstrap
+business intelligence analyst
+c
+caching
+c plus plus
+c#
+c++
+cakephp
+calculo multivariable
+carga de datos
+cargas de datos
+ci/cd
+cicd
+ciencia de datos
+cientifico de datos
+cmake
+cmd
+cobol
+cocoa
+codeigniter
+codigo abierto
+collibra
+comma-separated values
+command
+computacion paralela
+computer graphics
+computer network programming
+computing
+confluence
+continuous delivery
+continuous integration
+control de versiones
+cookies
+cordova
+cpp
+css
+csv
+curl
+dag
+dags
+dart
+dashboard
+dashboards
+data
+data analysis
+data analyst
+data analytics
+data engieneering
+data engineer
+data governance
+data indexing
+data integrity
+data lake
+data pipeline
+data processing
+data redundancy
+data retrieval
+data science
+data scientist
+data security
+data structure
+data structures
+data warehouse
+database
+database index
+databases
+databricks
+datadog
+dataframe
+dataops
+datarobot
+datasets
+dataspell
+datos
+datos a gran escala
+datos masivos
+debugging
+deep learning
+delphi
+deploy
+deployment
+desarrollador de software
+desarrollo agil de software
+design pattern
+design patterns
+desktop development
+despliegue de software
+developer
+devops
+devops engineer
+directed acyclic graph
+django
+docker
+docker compose
+docker hub
+dockerfile
+doctest
+dom
+dplyr
+dw
+dwh
+d3.js
+d3js
+d3 js
+d3
+e2e testing
+e2e tests
+ec2
+eclipse
+edw
+elasticsearch
+eloquent
+embedded development
+encryption
+enterprise data warehouse
+entity framework
+entorno de desarrollo integrado
+estadistica
+estadisticas
+estructura de datos
+etl
+etls
+excel
+express
+express js
+express.js
+extract transform load
+extract, transform, load
+facebook
+ffmpeg
+fine tunning
+fine-tunning
+firebase
+firefox
+flask
+flume
+flutter
+functional programming
+game development
+gcc
+gcp
+ggplot2
+git
+github
+gitlab
+gnu/linux
+go
+gobernanza de datos
+golang
+google app engine
+google bigquery
+google chrome
+google cloud
+google cloud firestore
+google cloud platform
+google maps
+gradle
+grafo aciclico dirigido
+grails
+graph
+gridview
+groovy
+h2o.ai
+hadoop
+haskell
+hbase
+hdfs
+heroku
+hibernate
+htaccess
+html
+htpps
+http
+ia
+ide
+iframe
+image processing
+indexing
+informatica
+ingenieria de datos
+ingenieria de software
+ingeniero de datos
+ingeniero de software
+inheritance
+input
+integrated development environment
+integration testing
+inteligencia artificial
+inteligencia de datos
+intellij idea
+interfaz de programacion de aplicaciones
+ios
+iphone
+java
+javafx
+javascript
+javascript object notation
+jdbc
+jenkins
+jira
+jpa
+jquery
+jshell
+json
+jsf
+jsp
+junit
+jupyter
+jupyter lab
+jupyter notebook
+jupyter notebooks
+jupyterlab
+k8s
+kafka
+kanban
+keras
+kinesis
+kotlin
+kubernetes
+lambda
+laravel
+lean manufacturing
+lenguaje de consulta estructurada
+linear algebra
+linq
+linux
+logging
+mac os x
+machine learning
+machine learning engineer
+macos
+macrodatos
+magento
+manufactura esbelta
+mapreduce
+matematica
+matematicas
+math
+matlab
+matplotlib
+matrix
+maven
+meteor
+microsoft access
+microsoft azure
+microsoft excel
+microsoft power bi
+microsoft sql server
+microsoft teams
+microsoft windows
+ml
+ml engineer
+mobile app
+mobile app development
+mobile development
+model view controller
+mongo
+mongodb
+mongoose
+ms access
+multimedia application development
+multithreading
+mvc
+mvvm
+mysql
+net
+network programming
+networking
+next
+next js
+next.js
+nextjs
+nginx
+node
+node js
+node.js
+nodejs
+non-relational
+non-sql
+nosql
+notepad
+npm
+numpy
+object oriented programming
+object-oriented programming
+objective c
+objective-c
+oltp
+online transaction processing
+oop
+open-source
+opencv
+opengl
+openshift
+oracle
+orchestration
+orquestacion
+os x
+output
+pandas
+paradigma de programacion
+parallel computing
+parquet
+parsehub
+perl
+php
+pip
+pipeline
+pipeline de datos
+pipelines
+plot
+plsql
+postgres
+postgresql
+power bi
+powerbi
+powershell
+procesamiento de datos
+produccion apretada
+produccion limpia
+produccion sin desperdicios
+programacion
+programacion funcional
+programmer
+programming
+programming language
+programming language paradigm
+programming paradigm
+prueba unitaria
+pu
+puppet
+pyspark
+pytest
+python
+qt
+r
+rails
+raspado web
+razor
+react
+react js
+react native
+react.js
+reactjs
+recursion
+redis
+redux
+regex
+remote dictionary server
+repository of data
+rest
+revision control
+routes
+ruby
+ruby on rails
+rust
+sass
+s3
+scala
+scikit learn
+scrapy
+scrum
+scrum master
+secure sockets layer
+selenium
+selenium webdriver
+serialization
+servlets
+sharepoint
+shell
+silverlight
+slack
+soap
+sockets
+software deployment
+software developer
+software development
+software engineer
+software engineering
+software prototyping
+software testing
+solidity
+source code management
+source control
+spark
+spring
+spring boot
+sql
+sql server
+sqlite
+ssh
+ssl
+stack
+statement
+statistics
+stored procedures
+structured query language
+svg
+svn
+swift
+swiftui
+swing
+symfony
+system administrator
+t-sql
+tableau
+talend
+team foundation server
+tensorflow
+test unitario
+testing
+tfs
+tkinter
+tomcat
+transact-sql
+trello
+twitter bootstrap
+typescript
+ubuntu
+ui
+uitableview
+unit testing
+unittest
+unity
+unix
+variable
+vb.net
+vba
+vector
+version control
+vim
+visual studio
+visual studio code
+visual studio team system
+vs code
+vsts
+vue
+vue js
+vue.js
+vuejs
+wcf
+web data extraction
+web development
+web harvesting
+web scraping
+web services
+webdriver
+webpack
+websocket
+winapi
+windows
+winforms
+woocommerce
+wordpress
+wpf
+xamarin
+xaml
+xcode
+xml
+xpath
+xslt
+yarn
