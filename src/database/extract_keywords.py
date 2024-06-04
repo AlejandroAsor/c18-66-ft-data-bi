@@ -1,63 +1,144 @@
 import re
+from urllib.parse import urlparse
 from src.database.connection import get_connection
+from src.database.create import insert_if_not_exists, insert_location, link_keyword_to_job
 
 DB_CONFIG = {
-    "computrabajo": ["title", "content", "keywords"],
-    "elempleo": ["titulo", "descripcion"],
+    "computrabajo": {
+        "fields": ["title", "content", "keywords"],
+        "experience_field": "experience_years_llama3_70b",
+        "salary_field": "salary",
+        "date_scraped_field": "date_scraped",
+        "date_posted_field": "date_posted"
+    },
+    "elempleo": {
+        "fields": ["titulo", "descripcion"],
+        "experience_field": "experiencia",
+        "salary_field": "salario",
+        "date_scraped_field": "date_scraped",
+        "date_posted_field": "date_posted"
+    },
 }
 
+def extract_country_from_url(url):
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    tld = domain.split('.')[0]
+    country_codes = {
+        "ar": "Argentina",
+        "bo": "Bolivia",
+        "cl": "Chile",
+        "co": "Colombia",
+        "cr": "Costa Rica",
+        "do": "Republica Dominicana",
+        "ec": "Ecuador",
+        "gt": "Guatemala",
+        "hn": "Honduras",
+        "mx": "Mexico",
+        "ni": "Nicaragua",
+        "pa": "Panama",
+        "pe": "Peru",
+        "pr": "Puerto Rico",
+        "py": "Paraguay",
+        "sv": "El Salvador",
+        "uy": "Uruguay",
+        "ve": "Venezuela",
+    }
+    return country_codes.get(tld, "Desconocido")
+
 def fetch_jobs_with_keyword(keyword, db_type):
-    """ Busca IDs de trabajos que contienen una palabra clave específica, usando regex de forma segura. """
+    """Busca IDs de trabajos que contienen una palabra clave específica, usando regex de forma segura."""
     safe_keyword = re.escape(keyword)
     conn = get_connection(db_type=db_type)
     cur = conn.cursor()
 
-    fields = DB_CONFIG.get(db_type, [])
-    if not fields:
+    config = DB_CONFIG.get(db_type)
+    if not config:
         raise ValueError(f"No hay configuración de campos para la base de datos: {db_type}")
 
+    fields = config["fields"]
+    experience_field = config["experience_field"]
+    salary_field = config["salary_field"]
+    date_scraped_field = config["date_scraped_field"]
+    date_posted_field = config["date_posted_field"]
+
     conditions = " OR ".join([f"{field} ~* '(?<![a-zA-Z]){safe_keyword}(?![a-zA-Z])'" for field in fields])
-    query = f"SELECT id FROM job_listings WHERE {conditions}"
+    query = f"""
+        SELECT id, {experience_field} as experience_level, url, {salary_field}, {date_scraped_field}, {date_posted_field}
+        FROM job_listings 
+        WHERE {conditions}
+    """
 
     cur.execute(query)
-    job_ids = cur.fetchall()
+    jobs = cur.fetchall()
     cur.close()
     conn.close()
 
-    return [job_id[0] for job_id in job_ids]
+    return jobs
 
 
-def store_jobs_with_keyword(keyword, job_ids, source_db_id):
+def insert_salary(amount):
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        # Primero, verifica si el salario ya está en la tabla
+        cur.execute("SELECT id FROM salaries WHERE amount = %s;", (amount,))
+        salary_id = cur.fetchone()
+        if salary_id:
+            return salary_id[0]
+
+        # Si no está, inserta el salario
+        cur.execute("INSERT INTO salaries (amount) VALUES (%s) RETURNING id;", (amount,))
+        salary_id = cur.fetchone()[0]
+        return salary_id
+    except Exception as e:
+        print(f"Error inserting salary '{amount}': {e}")
+    finally:
+        conn.commit()
+        cur.close()
+        conn.close()
+
+
+def store_jobs_with_keyword(keyword, jobs, source_db_id):
     """Almacena los IDs de trabajos relacionados con una palabra clave en la base de datos."""
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id FROM keywords WHERE keyword = %s;", (keyword,))
-    result = cur.fetchone()
-    if not result:
-        cur.execute("INSERT INTO keywords (keyword) VALUES (%s) RETURNING id;", (keyword,))
-        keyword_id = cur.fetchone()[0]
-    else:
-        keyword_id = result[0]
-    for job_id in job_ids:
-        cur.execute("INSERT INTO job_keywords (job_id, keyword_id, source_db_id) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING;", (job_id, keyword_id, source_db_id))
+    keyword_id = insert_if_not_exists("keywords", "keyword", keyword)
+
+    for job in jobs:
+        job_id, experience_level, url, salary, date_scraped, date_posted = job
+        if not experience_level:
+            experience_level = "Desconocido"
+
+        # Check if the job already exists
+        cur.execute("SELECT experience_level_id, location_id, salary_id FROM job_listings WHERE id = %s;", (job_id,))
+        existing_job = cur.fetchone()
+
+        if existing_job:
+            experience_level_id, location_id, salary_id = existing_job
+        else:
+            experience_level_id = insert_if_not_exists("experience_levels", "level", experience_level)
+            if source_db_id == get_source_db_id("elempleo"):
+                country = "Colombia"
+            else:
+                country = extract_country_from_url(url)
+            location_id = insert_location(country)
+            salary_id = insert_salary(salary)
+
+            cur.execute("""
+                INSERT INTO job_listings (id, experience_level_id, source_db_id, location_id, salary_id, date_scraped, date_posted) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s) 
+                ON CONFLICT (id) DO NOTHING;
+                """, (job_id, experience_level_id, source_db_id, location_id, salary_id, date_scraped, date_posted))
+
+        link_keyword_to_job(keyword_id, job_id)
+
     conn.commit()
     cur.close()
     conn.close()
 
 def get_source_db_id(db_name):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT id FROM source_database WHERE name = %s;", (db_name,))
-    result = cur.fetchone()
-    if not result:
-        cur.execute("INSERT INTO source_database (name) VALUES (%s) RETURNING id;", (db_name,))
-        source_db_id = cur.fetchone()[0]
-    else:
-        source_db_id = result[0]
-    conn.commit()
-    cur.close()
-    conn.close()
-    return source_db_id
+    return insert_if_not_exists("source_database", "name", db_name)
 
 def process_keywords_from_file(file_path, db_name):
     source_db_id = get_source_db_id(db_name)
@@ -66,12 +147,13 @@ def process_keywords_from_file(file_path, db_name):
             keyword = line.strip().lower()
             if len(keyword) <= 1:
                 continue
-            job_ids = fetch_jobs_with_keyword(keyword, db_name)
-            if job_ids:
-                store_jobs_with_keyword(keyword, job_ids, source_db_id)
-                print(f"Procesados {len(job_ids)} trabajos con la palabra clave '{keyword}' de la base de datos '{db_name}'.")
+            jobs = fetch_jobs_with_keyword(keyword, db_name)
+            if jobs:
+                store_jobs_with_keyword(keyword, jobs, source_db_id)
+                print(f"Procesados {len(jobs)} trabajos con la palabra clave '{keyword}' de la base de datos '{db_name}'.")
             else:
                 print(f"No se encontraron trabajos que contengan la palabra clave '{keyword}' en la base de datos '{db_name}'.")
 
 if __name__ == "__main__":
     process_keywords_from_file('keywords.txt', 'computrabajo')
+    process_keywords_from_file('keywords.txt', 'elempleo')

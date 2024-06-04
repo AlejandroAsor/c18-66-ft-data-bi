@@ -16,12 +16,40 @@ def create_tables():
             name TEXT UNIQUE NOT NULL,
             date_created TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')
         );
+        """,
         """
+        CREATE TABLE IF NOT EXISTS experience_levels (
+            id SERIAL PRIMARY KEY,
+            level TEXT UNIQUE NOT NULL
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS locations (
+            id SERIAL PRIMARY KEY,
+            country TEXT UNIQUE NOT NULL
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS salaries (
+            id SERIAL PRIMARY KEY,
+            amount TEXT UNIQUE NOT NULL
+        );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS job_listings (
+            id VARCHAR(255) PRIMARY KEY,
+            experience_level_id INTEGER REFERENCES experience_levels(id),
+            source_db_id INTEGER REFERENCES source_database(id),
+            location_id INTEGER REFERENCES locations(id),
+            salary_id INTEGER REFERENCES salaries(id),
+            date_scraped TEXT,
+            date_posted TEXT
+        );
+        """,
         """
         CREATE TABLE IF NOT EXISTS job_keywords (
             keyword_id INTEGER REFERENCES keywords(id),
-            job_id VARCHAR(255) NOT NULL,
-            source_db_id INTEGER REFERENCES source_database(id),
+            job_id VARCHAR(255) REFERENCES job_listings(id),
             PRIMARY KEY (keyword_id, job_id)
         );
         """
@@ -34,32 +62,38 @@ def create_tables():
     cur.close()
     conn.close()
 
-
-def insert_keyword(keyword):
-    conn = get_connection()  # Asegúrate de que esta función devuelve una conexión válida
+def insert_if_not_exists(table, column, value):
+    conn = get_connection()
     cur = conn.cursor()
     try:
-        cur.execute("INSERT INTO keywords (keyword) VALUES (%s) ON CONFLICT (keyword) DO NOTHING RETURNING id;", (keyword,))
-        keyword_id = cur.fetchone()
-        if keyword_id:
-            return keyword_id[0]
-        return None
+        cur.execute(f"SELECT id FROM {table} WHERE {column} = %s;", (value,))
+        result_id = cur.fetchone()
+        if result_id:
+            return result_id[0]
+        else:
+            query = f"INSERT INTO {table} ({column}) VALUES (%s) ON CONFLICT ({column}) DO NOTHING RETURNING id;"
+            cur.execute(query, (value,))
+            result_id = cur.fetchone()[0]
+            return result_id
     except Exception as e:
-        print(f"Error inserting keyword '{keyword}': {e}")
+        print(f"Error inserting into {table} '{value}': {e}")
     finally:
-        conn.commit()  # Asegúrate de confirmar la transacción
+        conn.commit()
         cur.close()
         conn.close()
 
+def insert_location(country):
+    return insert_if_not_exists("locations", "country", country)
 
 def link_keyword_to_job(keyword_id, job_id):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("INSERT INTO job_keywords (keyword_id, job_id) VALUES (%s, %s);", (keyword_id, job_id))
+    cur.execute("INSERT INTO job_keywords (keyword_id, job_id) VALUES (%s, %s) ON CONFLICT DO NOTHING;", (keyword_id, job_id))
     conn.commit()
     cur.close()
     conn.close()
 
 if __name__ == "__main__":
     create_tables()
+
 
