@@ -15,7 +15,7 @@ def fetch_and_store_keyword_counts():
 
     print("Keyword - Job Count")
     for row in results:
-        print(f"{row[0]} - {[1]}")
+        print(f"{row[0]} - {row[1]}")
 
     try:
         cur.execute("""
