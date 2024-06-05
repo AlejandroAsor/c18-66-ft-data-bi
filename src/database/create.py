@@ -50,6 +50,8 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS job_keywords (
             keyword_id INTEGER REFERENCES keywords(id),
             job_id VARCHAR(255) REFERENCES job_listings(id),
+            title_count INTEGER,
+            content_count INTEGER,
             PRIMARY KEY (keyword_id, job_id)
         );
         """
