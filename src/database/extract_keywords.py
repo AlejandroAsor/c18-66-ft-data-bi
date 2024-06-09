@@ -208,6 +208,11 @@ def extract_country_from_url(url):
     }
     return country_codes.get(tld, "Desconocido")
 
+def count_keyword_occurrences(text, keyword):
+    """Cuenta cuántas veces aparece una palabra clave en un texto, insensible a mayúsculas."""
+    pattern = re.compile(r'(?<![a-zA-Z])' + re.escape(keyword) + r'(?![a-zA-Z])', re.IGNORECASE)
+    return len(pattern.findall(text))
+
 def fetch_jobs_with_keyword(keyword, db_type):
     """Busca IDs de trabajos que contienen una palabra clave específica, usando regex de forma segura."""
     safe_keyword = re.escape(keyword)
@@ -225,21 +230,20 @@ def fetch_jobs_with_keyword(keyword, db_type):
     date_scraped_field = config["date_scraped_field"]
     date_posted_field = config["date_posted_field"]
 
+    fields = [title_field] + content_fields
     content_conditions = " OR ".join([f"{field} ~* '(?<![a-zA-Z]){safe_keyword}(?![a-zA-Z])'" for field in content_fields])
-    query = f"""
-        SELECT id, {experience_field} as experience_level, url, {salary_field}, {date_scraped_field}, {date_posted_field},
-        (SELECT COUNT(*) FROM job_listings WHERE {title_field} ~* '(?<![a-zA-Z]){safe_keyword}(?![a-zA-Z])') AS title_count,
-        (SELECT COUNT(*) FROM job_listings WHERE {content_conditions}) AS content_count
-        FROM job_listings 
-        WHERE {title_field} ~* '(?<![a-zA-Z]){safe_keyword}(?![a-zA-Z])' OR {content_conditions}
-    """
+    query = (
+        f"SELECT id, {experience_field} as experience_level, url, {salary_field}, {date_scraped_field}, {date_posted_field}, "
+        + ", ".join(fields) +
+        f" FROM job_listings WHERE {title_field} ~* '(?<![a-zA-Z]){safe_keyword}(?![a-zA-Z])' OR {content_conditions}"
+    )
 
     cur.execute(query)
     jobs = cur.fetchall()
     cur.close()
     conn.close()
 
-    return jobs
+    return jobs, title_field, content_fields
 
 def insert_salary(amount):
     conn = get_connection()
@@ -262,17 +266,24 @@ def insert_salary(amount):
         cur.close()
         conn.close()
 
-def store_jobs_with_keyword(keyword, jobs, source_db_id):
+def store_jobs_with_keyword(keyword, jobs, source_db_id, title_field, content_fields):
     """Almacena los IDs de trabajos relacionados con una palabra clave en la base de datos."""
     conn = get_connection()
     cur = conn.cursor()
     keyword_id = insert_if_not_exists("keywords", "keyword", keyword)
 
     for job in jobs:
-        job_id, experience_level, url, salary, date_scraped, date_posted, title_count, content_count = job
+        job_id, experience_level, url, salary, date_scraped, date_posted, *fields = job
         job_id = str(job_id)
         if not experience_level:
             experience_level = "Desconocido"
+
+        # Conteo de ocurrencias
+        title_text = fields[0]
+        content_texts = fields[1:]
+
+        title_count = count_keyword_occurrences(title_text, keyword)
+        content_count = sum(count_keyword_occurrences(text, keyword) for text in content_texts)
 
         # Check if the job already exists
         cur.execute("SELECT experience_level_id, location_id, salary_id FROM job_listings WHERE id = %s;", (job_id,))
@@ -303,7 +314,7 @@ def store_jobs_with_keyword(keyword, jobs, source_db_id):
             SET title_count = EXCLUDED.title_count, content_count = EXCLUDED.content_count;
             """, (job_id, keyword_id, title_count, content_count))
 
-        print(f"Palabra clave '{keyword}' encontrada en {title_count} títulos y {content_count} veces en el resto de las columnas.")
+        print(f"Palabra clave '{keyword}' encontrada {title_count} veces en el título y {content_count} veces en el resto de las columnas para la oferta {job_id}.")
 
     conn.commit()
     cur.close()
@@ -319,13 +330,13 @@ def process_keywords_from_file(file_path, db_name):
             keyword = line.strip().lower()
             if len(keyword) <= 1:
                 continue
-            jobs = fetch_jobs_with_keyword(keyword, db_name)
+            jobs, title_field, content_fields = fetch_jobs_with_keyword(keyword, db_name)
             if jobs:
-                store_jobs_with_keyword(keyword, jobs, source_db_id)
+                store_jobs_with_keyword(keyword, jobs, source_db_id, title_field, content_fields)
                 print(f"Procesados {len(jobs)} trabajos con la palabra clave '{keyword}' de la base de datos '{db_name}'.")
             else:
                 print(f"No se encontraron trabajos que contengan la palabra clave '{keyword}' en la base de datos '{db_name}'.")
 
 if __name__ == "__main__":
-    # process_keywords_from_file('keywords.txt', 'computrabajo')
+    process_keywords_from_file('keywords.txt', 'computrabajo')
     process_keywords_from_file('keywords.txt', 'elempleo')
