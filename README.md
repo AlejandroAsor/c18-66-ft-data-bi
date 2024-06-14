@@ -91,8 +91,6 @@ Este flujo asegura que las ofertas laborales estén siempre actualizadas y sean 
 
 Este esquema de la base de datos está diseñado para centralizar y organizar datos extraídos de múltiples fuentes de bases de datos, similar a la indexación inversa en Elasticsearch pero implementada en PostgreSQL de manera más artesanal.
 
-<img width="396" alt="Screenshot 2024-06-14 at 12 42 58 PM" src="https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/32c75921-81bd-482d-8ff6-5d151fe37587">
-
 <img width="632" alt="image" src="https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/6b0eee83-4486-4001-88ae-f8b9f0afb4dd">
 
 ## Componentes del Esquema
