@@ -86,6 +86,68 @@ El siguiente diagrama ilustra el flujo de datos en el sistema Tech Path Finder, 
 
 Este flujo asegura que las ofertas laborales estén siempre actualizadas y sean fácilmente accesibles para los usuarios de la plataforma.
 
+<img width="632" alt="image" src="https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/6b0eee83-4486-4001-88ae-f8b9f0afb4dd">
+
+# Esquema de la Base de Datos Centralizada
+
+Este esquema de la base de datos está diseñado para centralizar y organizar datos extraídos de múltiples fuentes de bases de datos, similar a la indexación inversa en Elasticsearch pero implementada en PostgreSQL de manera más artesanal.
+
+<img width="396" alt="Screenshot 2024-06-14 at 12 42 58 PM" src="https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/32c75921-81bd-482d-8ff6-5d151fe37587">
+
+<img width="632" alt="image" src="https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/6b0eee83-4486-4001-88ae-f8b9f0afb4dd">
+
+## Componentes del Esquema
+
+A continuación se describen las principales tablas del esquema y sus relaciones:
+
+- **source_database**
+  - `name`: Nombre de la base de datos de origen.
+  - `date_created`: Fecha de creación de la entrada.
+  - `id`: Identificador único de la fuente.
+
+- **locations**
+  - `country`: País de la ubicación.
+  - `id`: Identificador único de la ubicación.
+
+- **salaries**
+  - `amount`: Monto del salario como texto.
+  - `amount_cleaned`: Monto del salario procesado y normalizado.
+  - `id`: Identificador único del salario.
+
+- **experience_levels**
+  - `level`: Descripción del nivel de experiencia.
+  - `level_cleaned`: Nivel de experiencia normalizado.
+  - `id`: Identificador único del nivel de experiencia.
+
+- **job_listings**
+  - `experience_level_id`: ID del nivel de experiencia asociado.
+  - `source_db_id`: ID de la base de datos de origen.
+  - `location_id`: ID de la ubicación.
+  - `salary_id`: ID del salario.
+  - `date_scraped`: Fecha en que se extrajo la oferta.
+  - `date_posted`: Fecha de publicación de la oferta.
+  - `id`: Identificador único de la oferta de trabajo.
+
+- **keywords**
+  - `keyword`: Palabra clave.
+  - `date_created`: Fecha de creación de la palabra clave.
+  - `date_update`: Fecha de la última actualización de la palabra clave.
+  - `id`: Identificador único de la palabra clave.
+
+- **job_keywords**
+  - `title_count`: Conteo de apariciones del título.
+  - `content_count`: Conteo de apariciones en el contenido.
+  - `keyword_id`: ID de la palabra clave asociada.
+  - `job_id`: ID de la oferta de trabajo asociada.
+
+- **currency_conversion**
+  - `conversion_rate`: Tasa de conversión de la moneda.
+  - `country`: País de la moneda.
+
+Este modelo facilita consultas complejas y precisas, permitiendo un análisis detallado y la recuperación eficiente de información relacionada con ofertas de trabajo.
+
+
+
 ## Modelo de Negocio
 
 El modelo de negocio se enfoca en proporcionar insights y análisis detallados a empresas de tecnología, instituciones educativas y profesionales del sector. La generación de ingresos se estructura de la siguiente manera:
