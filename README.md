@@ -6,7 +6,7 @@
 ## Equipo del Proyecto
 
 - Alejandro Asor Corrales Gómez
-- Angel
+- Angel Jaramillo Sulca
 
 
 ## Objetivo
