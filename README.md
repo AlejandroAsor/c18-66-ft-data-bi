@@ -1,4 +1,4 @@
-# Tech Path Finder
+# TECHJOBS INC (Tech Path Finder)
 
 <img src="https://github.com/Angeljs094/JobMatchAI/blob/main/images/logo.png"  height=400>
 
