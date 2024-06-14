@@ -1,0 +1,142 @@
+python
+py
+java
+javascript
+js
+c#
+csharp
+c++
+cpp
+php
+typescript
+ts
+swift
+rust
+objective-c
+objc
+go
+golang
+kotlin
+matlab
+dart
+ruby
+vba
+visual basic for applications
+powershell
+ada
+scala
+lua
+abap
+visual basic
+vb
+julia
+perl
+haskell
+groovy
+cobol
+delphi
+pascal
+oracle
+mysql
+sql server
+mssql
+microsoft sql server
+postgresql
+postgres
+mongodb
+microsoft access
+access
+firebase
+redis
+splunk
+sqlite
+elasticsearch
+elastic search
+mariadb
+sap hana
+hana
+dynamodb
+amazon dynamodb
+db2
+ibm db2
+apache hive
+hive
+neo4j
+filemaker
+solr
+apache solr
+firebird
+ingres
+sybase
+hbase
+couchbase
+memcached
+riak
+informix
+ibm informix
+couchdb
+dbase
+netezza
+ibm netezza
+full-stack
+full stack
+fullstack
+back-end
+backend
+back end
+front-end
+frontend
+front end
+desktop developer
+enterprise applications developer
+desktop applications developer
+mobile developer
+mobile app developer
+mobile applications developer
+engineering manager
+manager engineering
+embedded developer
+embedded systems developer
+embedded applications developer
+data scientist
+machine learning specialist
+ml specialist
+devops
+devops engineer
+devops specialist
+r&d
+research and development
+c-suite
+vp
+senior executive
+data engineer
+ingeniero de datos
+cloud infrastructure engineer
+cloud engineer
+game developer
+graphics developer
+game and graphics developer
+data analyst
+business analyst
+system administrator
+sysadmin
+project manager
+qa developer
+test developer
+quality assurance developer
+security professional
+security engineer
+product manager
+site reliability engineer
+sre
+developer experience
+devex
+blockchain developer
+blockchain engineer
+hardware engineer
+designer
+graphic designer
+database administrator
+dba
+developer advocate
+devrel

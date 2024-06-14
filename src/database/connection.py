@@ -18,9 +18,9 @@ def create_database(conn, dbname):
         print(f"No se pudo crear la base de datos {dbname}: {e}")
         cursor.close()
 
-def get_connection(db_type="keywords"):
+def get_connection(db_type="keywords1"):
     """Crea y retorna una conexión a la base de datos especificada por `db_type`, creándola si no existe."""
-    if db_type == "keywords":
+    if db_type == "keywords1":
         dbname = os.getenv("KEYWORDS_DB_NAME")
         user = os.getenv("KEYWORDS_DB_USER")
         password = os.getenv("KEYWORDS_DB_PASSWORD")
@@ -57,7 +57,7 @@ def get_connection(db_type="keywords"):
 
 if __name__ == "__main__":
     # Test de la conexión a la base de datos de keywords
-    conn_keywords = get_connection("keywords")
+    conn_keywords = get_connection("keywords1")
     if conn_keywords:
         print("Conexión a 'keywords' establecida correctamente.")
         conn_keywords.close()

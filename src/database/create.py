@@ -20,7 +20,8 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS experience_levels (
             id SERIAL PRIMARY KEY,
-            level TEXT UNIQUE NOT NULL
+            level TEXT UNIQUE NOT NULL,
+            level_cleaned INTEGER
         );
         """,
         """
@@ -32,7 +33,8 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS salaries (
             id SERIAL PRIMARY KEY,
-            amount TEXT UNIQUE NOT NULL
+            amount TEXT UNIQUE NOT NULL,
+            amount_cleaned FLOAT
         );
         """,
         """
