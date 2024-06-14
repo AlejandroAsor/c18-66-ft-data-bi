@@ -1,9 +1,5 @@
 # Tech Path Finder
 
-## Introducción
-
-Tech Path Finder es una aplicación web diseñada para proporcionar información actualizada y relevante sobre ofertas laborales en el campo tecnológico. La plataforma ayuda a los usuarios a tomar decisiones informadas sobre su formación académica y especialización profesional, basándose en las oportunidades disponibles en el mercado tecnológico.
-
 ## Equipo del Proyecto
 
 - Alejandro Asor Corrales Gómez
