@@ -7,6 +7,7 @@
 
 - Alejandro Asor Corrales Gómez
 - Angel Jaramillo Sulca
+- Carla Bensi
 
 
 ## Objetivo
