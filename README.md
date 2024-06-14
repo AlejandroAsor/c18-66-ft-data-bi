@@ -1,5 +1,8 @@
 # Tech Path Finder
 
+<img src="https://github.com/Angeljs094/JobMatchAI/blob/main/images/logo.png"  height=400>
+
+
 ## Equipo del Proyecto
 
 - Alejandro Asor Corrales Gómez
@@ -143,7 +146,19 @@ A continuación se describen las principales tablas del esquema y sus relaciones
 
 Este modelo facilita consultas complejas y precisas, permitiendo un análisis detallado y la recuperación eficiente de información relacionada con ofertas de trabajo.
 
+## Metodología de Trabajo 
+### Metodología Scrum
+Scrum es un marco ágil que se enfoca en la entrega iterativa y flexible de proyectos. Los roles clave incluyen al Product Owner, quien representa las necesidades del cliente, al Scrum Master, que facilita el proceso, y al Equipo de Desarrollo, encargado de ejecutar el trabajo. Scrum se centra en eventos clave como los Sprints, reuniones de planificación y revisiones, y artefactos como el Product Backlog y el Sprint Backlog para proporcionar transparencia, adaptabilidad y colaboración continua en la gestión de proyectos.
+<br>[Volver al Índice](#Índice)
 
+### Recolección y Limpieza de Datos
+ *Web Scraping: Implementación de scripts de web scraping para extraer datos de ofertas de trabajo de Computrabajo y Elempleo.
+ *Limpieza de Datos: Procesamiento y limpieza de datos para asegurar su calidad y consistencia.
+
+### Análisis de Datos y Generación de Visualizaciones
+ *Comparación de Tendencias: Análisis comparativo de las tendencias entre los cinco países seleccionados.
+ *Generación de Informes: Elaboración de informes detallados que presenten los hallazgos del análisis.
+ 
 
 ## Modelo de Negocio
 
