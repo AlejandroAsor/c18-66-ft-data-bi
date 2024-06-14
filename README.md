@@ -86,7 +86,6 @@ El siguiente diagrama ilustra el flujo de datos en el sistema Tech Path Finder, 
 
 Este flujo asegura que las ofertas laborales estén siempre actualizadas y sean fácilmente accesibles para los usuarios de la plataforma.
 
-<img width="632" alt="image" src="https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/6b0eee83-4486-4001-88ae-f8b9f0afb4dd">
 
 # Esquema de la Base de Datos Centralizada
 
