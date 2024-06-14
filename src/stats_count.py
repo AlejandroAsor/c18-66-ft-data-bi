@@ -477,9 +477,61 @@ def calculate_keyword_combinations():
     conn.commit()
     cur.close()
     conn.close()
+def calculate_country_statistics():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    combined_keywords = get_combined_keywords()
+
+    for variant, primary_keyword in combined_keywords.items():
+        category = keyword_categories.get(primary_keyword, "Unknown")
+        # Consulta para calcular el conteo de ofertas y frecuencias por país con salarios y experiencia filtrados
+        cur.execute("""
+        SELECT l.country,
+               COUNT(DISTINCT CASE WHEN jk.title_count > 0 THEN jk.job_id END) AS offer_count_title,
+               COUNT(DISTINCT CASE WHEN jk.content_count > 0 THEN jk.job_id END) AS offer_count_content,
+               SUM(jk.title_count) AS title_frequency,
+               SUM(jk.content_count) AS content_frequency,
+               AVG(CASE WHEN s.amount_cleaned * cc.conversion_rate BETWEEN 50 AND 10000 THEN s.amount_cleaned * cc.conversion_rate END) AS avg_salary_usd,
+               AVG(CASE WHEN el.level_cleaned > 0 THEN el.level_cleaned END) AS avg_experience
+        FROM job_keywords jk
+        JOIN job_listings jl ON jl.id = jk.job_id
+        JOIN keywords k ON jk.keyword_id = k.id
+        JOIN locations l ON jl.location_id = l.id
+        JOIN currency_conversion cc ON l.country = cc.country
+        LEFT JOIN salaries s ON jl.salary_id = s.id
+        LEFT JOIN experience_levels el ON jl.experience_level_id = el.id
+        WHERE k.keyword = %s
+        GROUP BY l.country
+        """, (variant,))
+
+        rows = cur.fetchall()
+        for row in rows:
+            country, offer_count_title, offer_count_content, title_frequency, content_frequency, avg_salary_usd, avg_experience = row
+            # Asegurarse de actualizar los valores correctamente en la base de datos
+            cur.execute("""
+            INSERT INTO country_statistics (country, keyword, category, offer_count_title, offer_count_content, title_frequency, content_frequency, avg_salary_usd, avg_experience)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (country, keyword) DO UPDATE SET
+                offer_count_title = country_statistics.offer_count_title + EXCLUDED.offer_count_title,
+                offer_count_content = country_statistics.offer_count_content + EXCLUDED.offer_count_content,
+                title_frequency = country_statistics.title_frequency + EXCLUDED.title_frequency,
+                content_frequency = country_statistics.content_frequency + EXCLUDED.content_frequency,
+                avg_salary_usd = COALESCE(EXCLUDED.avg_salary_usd, country_statistics.avg_salary_usd),
+                avg_experience = COALESCE(EXCLUDED.avg_experience, country_statistics.avg_experience);
+            """, (country, primary_keyword, category, offer_count_title, offer_count_content, title_frequency, content_frequency, avg_salary_usd, avg_experience))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
+
+
 
 if __name__ == "__main__":
     create_currency_conversion_table()
     create_statistics_tables()
     calculate_general_statistics()
     calculate_keyword_combinations()
+    calculate_country_statistics()
