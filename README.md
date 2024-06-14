@@ -86,3 +86,22 @@ El siguiente diagrama ilustra el flujo de datos en el sistema Tech Path Finder, 
 
 Este flujo asegura que las ofertas laborales estén siempre actualizadas y sean fácilmente accesibles para los usuarios de la plataforma.
 
+## Modelo de Negocio
+
+El modelo de negocio se enfoca en proporcionar insights y análisis detallados a empresas de tecnología, instituciones educativas y profesionales del sector. La generación de ingresos se estructura de la siguiente manera:
+
+- **Suscripciones:** 
+  - Ofrecemos planes de suscripción mensuales o anuales.
+  - Acceso a informes y análisis detallados.
+
+- **Consultoría:** 
+  - Servicios de consultoría especializados para interpretación y aplicación de datos.
+  - Apoyo en decisiones estratégicas para mejorar la gestión empresarial.
+
+- **Publicidad:** 
+  - Espacios publicitarios disponibles en la plataforma.
+  - Orientados a empresas de formación y reclutamiento que buscan una audiencia especializada.
+
+- **Venta de Datos:** 
+  - Venta de datos agregados y anonimizados.
+  - Apoyo a empresas en estudios de mercado y análisis de tendencias.
