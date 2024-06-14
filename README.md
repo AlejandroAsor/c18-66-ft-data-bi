@@ -15,7 +15,7 @@ El objetivo principal de Tech Path Finder es desarrollar una aplicación web int
 
 ## Identificación del Problema
 
-La rápida evolución del sector de las tecnologías de la información presenta desafíos significativos para los individuos que aspiran a ingresar o avanzar en este campo. La abundancia de recursos educativos y la diversidad de roles profesionales complican la elección de un itinerario formativo y profesional claro y eficaz. Además, existe una notable discrepancia entre las competencias enseñadas en los ámbitos académicos y aquellas demandadas en el mercado laboral. Tech Path Finder busca cerrar esta brecha guiando a estudiantes y profesionales hacia las habilidades y tecnologías valoradas por los empleadores.
+La rápida evolución del sector de las tecnologías de la información presenta desafíos significativos para los individuos que aspiran a ingresar o avanzar en este campo. La abundancia de recursos educativos y la diversidad de roles profesionales complican la elección de un itinerario formativo y profesional claro y eficaz. Además, existe una notable discrepancia entre las competencias enseñadas en los ámbitos académicos y aquellas demandadas en el mercado laboral.
 
 
 ## Descripción de la Solución
