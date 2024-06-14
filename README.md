@@ -73,3 +73,16 @@ La solución propuesta por el proyecto "Tech Path Finder" es facilitar la visual
   </tr>
 </table>
 
+
+## Arquitectura de Procesamiento de Datos
+
+El siguiente diagrama ilustra el flujo de datos en el sistema Tech Path Finder, desde la base de datos PostgreSQL hasta Elasticsearch, utilizando Apache Spark para el procesamiento de datos:
+
+![el drawio](https://github.com/AlejandroAsor/c18-66-ft-data-bi/assets/84219142/cb9024c6-070f-4ff0-b83f-85bd32eba977)
+
+1. **PostgreSQL**: La base de datos PostgreSQL almacena las ofertas laborales recopiladas.
+2. **Apache Spark**: Apache Spark se utiliza para procesar grandes volúmenes de datos. Los datos son extraídos de PostgreSQL, procesados por Spark y luego enviados a Elasticsearch. El procesamiento es distribuido a través de múltiples nodos de trabajo (workers) para aumentar la eficiencia y la velocidad.
+3. **Elasticsearch**: Los datos procesados son indexados en Elasticsearch, lo que permite búsquedas y análisis rápidos y eficientes.
+
+Este flujo asegura que las ofertas laborales estén siempre actualizadas y sean fácilmente accesibles para los usuarios de la plataforma.
+
